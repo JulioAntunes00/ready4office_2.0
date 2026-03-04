@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+📄 Ready4Office
 
-## Getting Started
+Ready4Office é uma plataforma SaaS (Software as a Service) focada em simplificar a rotina de escritório. Oferece ferramentas de manipulação de PDF rápidas, seguras e que funcionam inteiramente no navegador do utilizador, sem a necessidade de enviar ficheiros sensíveis para servidores de terceiros.
 
-First, run the development server:
+🚀 Funcionalidades Principais
 
-```bash
+Editor de PDF: Adicione textos e preencha formulários diretamente no navegador com uma interface drag and drop intuitiva.
+
+Juntar PDFs (Merge): Selecione múltiplos ficheiros PDF, organize a ordem das páginas arrastando e soltando, e una-os num único documento.
+
+Modelos Prontos: Galeria de modelos em branco (Recibos, Declarações, Contratos) otimizada para SEO e atração de tráfego orgânico.
+
+Processamento Local (Privacidade): Utiliza bibliotecas Client-Side para processar os PDFs na máquina do utilizador, garantindo 100% de privacidade.
+
+Internacionalização (i18n): Suporte nativo para Português (PT) e Inglês (EN).
+
+Modo Escuro (Dark Mode): Tema claro e escuro persistente, guardado nas preferências do navegador (localStorage).
+
+🛠️ Tecnologias Utilizadas
+
+Este projeto foi construído com foco em performance e renderização estática:
+
+Next.js (App Router): Framework React para rotas isoladas e otimização de SEO.
+
+Tailwind CSS v4: Estilização utilitária com suporte a Dark Mode customizado.
+
+pdf-lib: Criação e modificação de documentos PDF.
+
+pdf.js (Mozilla): Renderização de páginas PDF em <canvas> para pré-visualização.
+
+⚙️ Como executar o projeto localmente
+
+Pré-requisitos: Node.js instalado na sua máquina.
+
+Clone o repositório:
+
+git clone [https://github.com/SEU_USUARIO/ready4office.git](https://github.com/SEU_USUARIO/ready4office.git)
+cd ready4office
+
+
+Instale as dependências:
+
+npm install
+
+
+Inicie o servidor de desenvolvimento:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Acesse no navegador:
+Abra http://localhost:3000 para ver o site em funcionamento.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+📦 Como gerar a versão de Produção (Deploy Estático)
 
-## Learn More
+Este projeto está configurado para exportação estática (output: 'export'), ideal para alojamento rápido como Hostinger, Vercel ou GitHub Pages.
 
-To learn more about Next.js, take a look at the following resources:
+Compile o projeto:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+npm run build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+Deploy:
+O Next.js irá gerar uma pasta chamada /out. Basta transferir o conteúdo dessa pasta para o diretório public_html da sua hospedagem.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+👨‍💻 Desenvolvedor
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Projeto desenvolvido com foco em resolução de problemas reais de escritório e arquitetura de software modular.
