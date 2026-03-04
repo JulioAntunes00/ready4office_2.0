@@ -1,34 +1,61 @@
+<div align="center">
+
 📄 Ready4Office
 
-Ready4Office é uma plataforma SaaS (Software as a Service) focada em simplificar a rotina de escritório. Oferece ferramentas de manipulação de PDF rápidas, seguras e que funcionam inteiramente no navegador do utilizador, sem a necessidade de enviar ficheiros sensíveis para servidores de terceiros.
+Ferramentas PDF Online • Rápidas • Seguras • 100% no Navegador
 
-🚀 Funcionalidades Principais
+<!-- Badges das Tecnologias -->
 
-Editor de PDF: Adicione textos e preencha formulários diretamente no navegador com uma interface drag and drop intuitiva.
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/Next.js-000000%3Fstyle%3Dfor-the-badge%26logo%3Dnextdotjs%26logoColor%3Dwhite" alt="Next.js" />
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/React-20232A%3Fstyle%3Dfor-the-badge%26logo%3Dreact%26logoColor%3D61DAFB" alt="React" />
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/Tailwind_CSS-38B2AC%3Fstyle%3Dfor-the-badge%26logo%3Dtailwind-css%26logoColor%3Dwhite" alt="Tailwind CSS" />
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/Status-Em%2520Produ%25C3%25A7%25C3%25A3o-success%3Fstyle%3Dfor-the-badge" alt="Status: Em Produção" />
 
-Juntar PDFs (Merge): Selecione múltiplos ficheiros PDF, organize a ordem das páginas arrastando e soltando, e una-os num único documento.
+</div>
 
-Modelos Prontos: Galeria de modelos em branco (Recibos, Declarações, Contratos) otimizada para SEO e atração de tráfego orgânico.
+<br />
 
-Processamento Local (Privacidade): Utiliza bibliotecas Client-Side para processar os PDFs na máquina do utilizador, garantindo 100% de privacidade.
+💡 Ready4Office é uma plataforma SaaS (Software as a Service) focada em simplificar a rotina de escritório. Oferece ferramentas de manipulação de PDF que funcionam inteiramente na sua máquina, sem a necessidade de enviar ficheiros sensíveis para servidores de terceiros.
 
-Internacionalização (i18n): Suporte nativo para Português (PT) e Inglês (EN).
+✨ Funcionalidades Principais
 
-Modo Escuro (Dark Mode): Tema claro e escuro persistente, guardado nas preferências do navegador (localStorage).
+✍️ Editor de PDF: Adicione textos e preencha formulários diretamente no navegador com uma interface drag and drop intuitiva.
+
+🔗 Juntar PDFs (Merge): Selecione múltiplos ficheiros, organize a ordem das páginas visualmente e una-os num único documento.
+
+📄 Modelos Prontos: Galeria de modelos em branco (Recibos, Declarações, Contratos) otimizada para SEO e atração de tráfego orgânico.
+
+🔒 Privacidade Total: Processamento Client-Side. Os seus documentos nunca saem do seu computador.
+
+🌍 Internacionalização (i18n): Suporte nativo para Português (PT) e Inglês (EN).
+
+🌙 Modo Escuro (Dark Mode): Tema claro e escuro persistente, guardado no localStorage.
 
 🛠️ Tecnologias Utilizadas
 
-Este projeto foi construído com foco em performance e renderização estática:
+Este projeto foi desenhado com foco em alta performance e renderização estática:
 
-Next.js (App Router): Framework React para rotas isoladas e otimização de SEO.
+Tecnologia
 
-Tailwind CSS v4: Estilização utilitária com suporte a Dark Mode customizado.
+Descrição
 
-pdf-lib: Criação e modificação de documentos PDF.
+Next.js (App Router)
 
-pdf.js (Mozilla): Renderização de páginas PDF em <canvas> para pré-visualização.
+Framework React para rotas isoladas e geração estática (SSG).
 
-⚙️ Como executar o projeto localmente
+Tailwind CSS v4
+
+Estilização utilitária de alta performance com Dark Mode customizado.
+
+PDF-lib
+
+Biblioteca robusta para criação e modificação estrutural de documentos PDF.
+
+PDF.js (Mozilla)
+
+Motor de renderização de páginas PDF em <canvas> para pré-visualização.
+
+⚙️ Como executar localmente
 
 Pré-requisitos: Node.js instalado na sua máquina.
 
@@ -51,18 +78,19 @@ npm run dev
 Acesse no navegador:
 Abra http://localhost:3000 para ver o site em funcionamento.
 
-📦 Como gerar a versão de Produção (Deploy Estático)
+📦 Deploy para Produção (Hostinger, Vercel, etc.)
 
-Este projeto está configurado para exportação estática (output: 'export'), ideal para alojamento rápido como Hostinger, Vercel ou GitHub Pages.
+Este projeto utiliza o recurso output: 'export' do Next.js, gerando ficheiros HTML/CSS puros de altíssima velocidade.
 
-Compile o projeto:
+Compile o projeto executando:
 
 npm run build
 
 
-Deploy:
-O Next.js irá gerar uma pasta chamada /out. Basta transferir o conteúdo dessa pasta para o diretório public_html da sua hospedagem.
+O Next.js irá gerar uma pasta chamada /out.
 
-👨‍💻 Desenvolvedor
+Copie todo o conteúdo de dentro da pasta /out e cole na pasta public_html do seu servidor (ex: Hostinger).
 
-Projeto desenvolvido com foco em resolução de problemas reais de escritório e arquitetura de software modular.
+<div align="center">
+<sub>Desenvolvido com foco em arquitetura modular e resolução de problemas reais.</sub>
+</div>
