@@ -15,7 +15,19 @@ const translations = {
     toolMergeTitle: "Juntar PDFs",
     toolMergeDesc: "Mesclar PDF online. Una vários documentos num único arquivo rapidamente e organize a ordem.",
     toolCompressTitle: "Comprimir PDF",
-    toolCompressDesc: "Em breve. Reduza o peso dos seus arquivos mantendo a máxima qualidade original."
+    toolCompressDesc: "Em breve. Reduza o peso dos seus arquivos mantendo a máxima qualidade original.",
+    footerAboutTitle: "Sobre Ready4Office",
+    footerAboutDesc: "Plataforma online gratuita para editar, mesclar e assinar documentos PDF diretamente no seu navegador, sem necessidade de instalação.",
+    footerLinksTitle: "Links Rápidos",
+    footerLink1: "Editor PDF",
+    footerLink2: "Juntar PDFs",
+    footerLink3: "Modelos",
+    footerInfoTitle: "Informações",
+    footerInfo1: "Email: info@ready4office.com",
+    footerInfo2: "Seus dados são privados",
+    footerInfo3: "100% Gratuito",
+    footerCopyright: "Todos os direitos reservados",
+    footerDeveloped: "Desenvolvido com ❤️ para simplificar sua experiência com documentos"
   },
   en: {
     heroTitle: "Free Online PDF Editor & Tools",
@@ -27,7 +39,19 @@ const translations = {
     toolMergeTitle: "Merge PDFs",
     toolMergeDesc: "Combine multiple PDF documents into a single file and organize the page order.",
     toolCompressTitle: "Compress PDF",
-    toolCompressDesc: "Coming soon. Reduce your file sizes while maintaining maximum original quality."
+    toolCompressDesc: "Coming soon. Reduce your file sizes while maintaining maximum original quality.",
+    footerAboutTitle: "About Ready4Office",
+    footerAboutDesc: "Free online platform to edit, merge and sign PDF documents directly in your browser, with no installation needed.",
+    footerLinksTitle: "Quick Links",
+    footerLink1: "PDF Editor",
+    footerLink2: "Merge PDFs",
+    footerLink3: "Models",
+    footerInfoTitle: "Information",
+    footerInfo1: "Email: info@ready4office.com",
+    footerInfo2: "Your data is private",
+    footerInfo3: "100% Free",
+    footerCopyright: "All rights reserved",
+    footerDeveloped: "Developed with ❤️ to simplify your document experience"
   }
 };
 
@@ -93,8 +117,43 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="py-8 text-center text-gray-400 dark:text-gray-600 text-xs border-t border-gray-200 dark:border-gray-800 mt-12 transition-colors">
-        &copy; {new Date().getFullYear()} Ready4Office - Global PDF Solutions
+      <footer className="bg-gray-50 dark:bg-[#0a0a0a] border-t border-gray-200 dark:border-gray-800 mt-12 transition-colors">
+        <div className="max-w-[1200px] mx-auto px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {/* Coluna 1: Sobre */}
+            <div>
+              <h3 className="font-bold text-gray-900 dark:text-white mb-4 text-sm">{t.footerAboutTitle}</h3>
+              <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                {t.footerAboutDesc}
+              </p>
+            </div>
+
+            {/* Coluna 2: Links Rápidos */}
+            <div>
+              <h3 className="font-bold text-gray-900 dark:text-white mb-4 text-sm">{t.footerLinksTitle}</h3>
+              <ul className="space-y-2 text-xs text-gray-600 dark:text-gray-400">
+                <li><a href="/editor" className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">{t.footerLink1}</a></li>
+                <li><a href="/juntar-pdf" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.footerLink2}</a></li>
+                <li><a href="#modelos" className="hover:text-gray-900 dark:hover:text-gray-200 transition-colors">{t.footerLink3}</a></li>
+              </ul>
+            </div>
+
+            {/* Coluna 3: Contato */}
+            <div>
+              <h3 className="font-bold text-gray-900 dark:text-white mb-4 text-sm">{t.footerInfoTitle}</h3>
+              <ul className="space-y-2 text-xs text-gray-600 dark:text-gray-400">
+                <li>📧 {t.footerInfo1}</li>
+                <li>🔒 {t.footerInfo2}</li>
+                <li>⚡ {t.footerInfo3}</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-gray-200 dark:border-gray-800 pt-8 text-center text-gray-500 dark:text-gray-600 text-xs">
+            <p>&copy; {new Date().getFullYear()} Ready4Office - Global PDF Solutions. {t.footerCopyright}</p>
+            <p className="mt-2">{t.footerDeveloped}</p>
+          </div>
+        </div>
       </footer>
     </div>
   );
