@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import { translations } from '@/utils/translations';
+import { incrementVisitCount, formatVisitCount } from '@/utils/visitCounter';
 
 export default function Home() {
   const [lang, setLang] = useState('pt');
@@ -16,10 +17,9 @@ export default function Home() {
   }, [lang]);
 
   useEffect(() => {
-    fetch('https://api.counterapi.dev/v1/ready4office/visits/up')
-      .then(res => res.json())
-      .then(data => setVisits(data.count))
-      .catch(() => {});
+    // Contador de visitas local que ignora bots
+    const visitCount = incrementVisitCount();
+    setVisits(visitCount);
   }, []);
 
   return (
@@ -139,7 +139,7 @@ export default function Home() {
             <p>&copy; {new Date().getFullYear()} Ready4Office - Global PDF Solutions. {t.footerCopyright}</p>
             <p className="mt-2">{t.footerDeveloped}</p>
             {visits !== null && (
-              <p className="mt-3 text-[10px] text-gray-400 dark:text-gray-600">{visits.toLocaleString()} {t.footerVisits}</p>
+              <p className="mt-3 text-[10px] text-gray-400 dark:text-gray-600">{formatVisitCount(visits)} {t.footerVisits}</p>
             )}
           </div>
         </div>
