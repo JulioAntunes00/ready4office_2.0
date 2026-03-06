@@ -8,10 +8,19 @@ export default function Home() {
   const [lang, setLang] = useState('pt');
   const t = translations[lang].home;
 
+  const [visits, setVisits] = useState(null);
+
   // SEO Dinâmico
   useEffect(() => {
     document.title = lang === 'pt' ? "Ready4Office | Ferramentas PDF Online" : "Ready4Office | Online PDF Tools";
   }, [lang]);
+
+  useEffect(() => {
+    fetch('https://api.counterapi.dev/v1/ready4office/visits/up')
+      .then(res => res.json())
+      .then(data => setVisits(data.count))
+      .catch(() => {});
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f7f5f2] dark:bg-[#121212] font-sans text-gray-800 dark:text-gray-200 transition-colors duration-300 selection:bg-orange-200 dark:selection:bg-orange-900">
@@ -61,6 +70,20 @@ export default function Home() {
             <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t.toolConvertTitle}</h2>
             <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm flex-1 leading-relaxed">{t.toolConvertDesc}</p>
             <Link href="/converter-img-pdf" className="w-full py-3 bg-green-600 text-white font-semibold rounded-2xl hover:bg-green-700 transition-colors shadow-lg shadow-green-100 dark:shadow-none">
+              {t.btnOpen}
+            </Link>
+          </div>
+
+          {/* Card: PDF para Word */}
+          <div className="bg-white dark:bg-[#1e1e1e] rounded-3xl p-8 shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col items-center text-center hover:shadow-xl dark:hover:shadow-black/50 transition-all duration-300">
+            <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-2xl flex items-center justify-center mb-6 transition-colors">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t.toolPdfWordTitle}</h2>
+            <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm flex-1 leading-relaxed">{t.toolPdfWordDesc}</p>
+            <Link href="/converter-pdf-word" className="w-full py-3 bg-purple-600 text-white font-semibold rounded-2xl hover:bg-purple-700 transition-colors shadow-lg shadow-purple-100 dark:shadow-none">
               {t.btnOpen}
             </Link>
           </div>
@@ -115,6 +138,9 @@ export default function Home() {
           <div className="border-t border-gray-200 dark:border-gray-800 pt-8 text-center text-gray-500 dark:text-gray-600 text-xs">
             <p>&copy; {new Date().getFullYear()} Ready4Office - Global PDF Solutions. {t.footerCopyright}</p>
             <p className="mt-2">{t.footerDeveloped}</p>
+            {visits !== null && (
+              <p className="mt-3 text-[10px] text-gray-400 dark:text-gray-600">{visits.toLocaleString()} {t.footerVisits}</p>
+            )}
           </div>
         </div>
       </footer>

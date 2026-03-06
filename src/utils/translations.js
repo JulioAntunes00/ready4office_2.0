@@ -16,6 +16,8 @@ export const translations = {
       toolMergeDesc: "Mesclar PDF online. Una vários documentos num único arquivo rapidamente e organize a ordem.",
       toolConvertTitle: "Converter Imagem em PDF",
       toolConvertDesc: "Transforme imagens JPG, PNG e outras em documentos PDF de forma rápida e fácil.",
+      toolPdfWordTitle: "Converter PDF para Word",
+      toolPdfWordDesc: "Extraia o texto dos seus PDFs e converta para documento Word (.docx) de forma rápida e gratuita.",
       toolCompressTitle: "Comprimir PDF",
       toolCompressDesc: "Em breve. Reduza o peso dos seus arquivos mantendo a máxima qualidade original.",
       footerAboutTitle: "Sobre Ready4Office",
@@ -29,7 +31,8 @@ export const translations = {
       footerInfo2: "Seus dados são privados",
       footerInfo3: "100% Gratuito",
       footerCopyright: "Todos os direitos reservados",
-      footerDeveloped: "Desenvolvido com ❤️ para simplificar sua experiência com documentos"
+      footerDeveloped: "Desenvolvido com ❤️ para simplificar sua experiência com documentos",
+      footerVisits: "visitas"
     },
     modelos: {
       title: "Modelos de PDF Prontos para Baixar",
@@ -79,6 +82,16 @@ export const translations = {
       downloadBtn: "Baixar PDF",
       emptyTitle: "Aguardando Imagens",
       noFilesMsg: "Nenhuma imagem selecionada. Use o painel lateral."
+    },
+    pdfToWord: {
+      sidebarTitle: "Arquivo PDF",
+      addBtn: "Selecionar PDF",
+      processingMsg: "Convertendo...",
+      previewTitle: "Texto Extraído",
+      downloadBtn: "Baixar Word (.docx)",
+      emptyTitle: "Aguardando PDF",
+      noFilesMsg: "Nenhum arquivo selecionado. Use o painel lateral.",
+      pageLabel: "Página"
     }
   },
   en: {
@@ -98,6 +111,8 @@ export const translations = {
       toolMergeDesc: "Combine multiple PDF documents into a single file and organize the page order.",
       toolConvertTitle: "Convert Image to PDF",
       toolConvertDesc: "Transform JPG, PNG, and other images into PDF documents quickly and easily.",
+      toolPdfWordTitle: "Convert PDF to Word",
+      toolPdfWordDesc: "Extract text from your PDFs and convert to Word document (.docx) quickly and for free.",
       toolCompressTitle: "Compress PDF",
       toolCompressDesc: "Coming soon. Reduce your file sizes while maintaining maximum original quality.",
       footerAboutTitle: "About Ready4Office",
@@ -111,7 +126,8 @@ export const translations = {
       footerInfo2: "Your data is private",
       footerInfo3: "100% Free",
       footerCopyright: "All rights reserved",
-      footerDeveloped: "Developed with ❤️ to simplify your document experience"
+      footerDeveloped: "Developed with ❤️ to simplify your document experience",
+      footerVisits: "visits"
     },
     modelos: {
       title: "Ready-to-use PDF Templates",
@@ -161,6 +177,16 @@ export const translations = {
       downloadBtn: "Download PDF",
       emptyTitle: "Waiting for Images",
       noFilesMsg: "No images selected. Use the sidebar."
+    },
+    pdfToWord: {
+      sidebarTitle: "PDF File",
+      addBtn: "Select PDF",
+      processingMsg: "Converting...",
+      previewTitle: "Extracted Text",
+      downloadBtn: "Download Word (.docx)",
+      emptyTitle: "Waiting for PDF",
+      noFilesMsg: "No file selected. Use the sidebar.",
+      pageLabel: "Page"
     }
   }
 };
