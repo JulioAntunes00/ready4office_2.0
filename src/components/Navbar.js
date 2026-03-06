@@ -5,12 +5,14 @@ import { translations } from '@/utils/translations';
 
 const Navbar = ({ lang, setLang }) => {
   const tNav = translations[lang].navbar;
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    }
-    return false;
-  });
+  const [isDark, setIsDark] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    const theme = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    setIsDark(theme);
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (isDark) {
@@ -37,10 +39,10 @@ const Navbar = ({ lang, setLang }) => {
       <div className="flex items-center gap-4">
         {/* BOTÃO DARK/LIGHT */}
         <div className="flex bg-gray-200 dark:bg-gray-800 rounded-full p-1 transition-colors">
-          <button onClick={() => setTheme('light')} className={`px-3 py-1 text-xs font-bold rounded-full transition ${!isDark ? 'bg-white shadow text-black' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'}`}>
+          <button onClick={() => setTheme('light')} className={`px-3 py-1 text-xs font-bold rounded-full transition ${(!mounted || !isDark) ? 'bg-white shadow text-black' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'}`}>
             Light
           </button>
-          <button onClick={() => setTheme('dark')} className={`px-3 py-1 text-xs font-bold rounded-full transition ${isDark ? 'bg-[#333] shadow text-white' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'}`}>
+          <button onClick={() => setTheme('dark')} className={`px-3 py-1 text-xs font-bold rounded-full transition ${(mounted && isDark) ? 'bg-[#333] shadow text-white' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'}`}>
             Dark
           </button>
         </div>
