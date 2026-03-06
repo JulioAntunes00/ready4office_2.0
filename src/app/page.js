@@ -2,67 +2,25 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
-
-// --- DICIONÁRIO DE TRADUÇÃO ---
-const translations = {
-  pt: {
-    heroTitle: "Editor de PDF e Ferramentas Online Grátis",
-    heroSub: "Edite, junte e assine documentos PDF direto no seu navegador. Rápido, seguro e sem precisar instalar programas.",
-    btnOpen: "Abrir Ferramenta",
-    btnSoon: "Em breve",
-    toolEditorTitle: "Editor de PDF",
-    toolEditorDesc: "Adicione textos, preencha formulários e assine declarações online com segurança.",
-    toolMergeTitle: "Juntar PDFs",
-    toolMergeDesc: "Mesclar PDF online. Una vários documentos num único arquivo rapidamente e organize a ordem.",
-    toolCompressTitle: "Comprimir PDF",
-    toolCompressDesc: "Em breve. Reduza o peso dos seus arquivos mantendo a máxima qualidade original.",
-    footerAboutTitle: "Sobre Ready4Office",
-    footerAboutDesc: "Plataforma online gratuita para editar, mesclar e assinar documentos PDF diretamente no seu navegador, sem necessidade de instalação.",
-    footerLinksTitle: "Links Rápidos",
-    footerLink1: "Editor PDF",
-    footerLink2: "Juntar PDFs",
-    footerLink3: "Modelos",
-    footerInfoTitle: "Informações",
-    footerInfo1: "Email: info@ready4office.com",
-    footerInfo2: "Seus dados são privados",
-    footerInfo3: "100% Gratuito",
-    footerCopyright: "Todos os direitos reservados",
-    footerDeveloped: "Desenvolvido com ❤️ para simplificar sua experiência com documentos"
-  },
-  en: {
-    heroTitle: "Free Online PDF Editor & Tools",
-    heroSub: "Edit, merge, and sign PDF documents directly in your browser. Fast, secure, and no installation required.",
-    btnOpen: "Open Tool",
-    btnSoon: "Coming soon",
-    toolEditorTitle: "PDF Editor",
-    toolEditorDesc: "Add text, fill out forms, and sign documents online easily and securely.",
-    toolMergeTitle: "Merge PDFs",
-    toolMergeDesc: "Combine multiple PDF documents into a single file and organize the page order.",
-    toolCompressTitle: "Compress PDF",
-    toolCompressDesc: "Coming soon. Reduce your file sizes while maintaining maximum original quality.",
-    footerAboutTitle: "About Ready4Office",
-    footerAboutDesc: "Free online platform to edit, merge and sign PDF documents directly in your browser, with no installation needed.",
-    footerLinksTitle: "Quick Links",
-    footerLink1: "PDF Editor",
-    footerLink2: "Merge PDFs",
-    footerLink3: "Models",
-    footerInfoTitle: "Information",
-    footerInfo1: "Email: info@ready4office.com",
-    footerInfo2: "Your data is private",
-    footerInfo3: "100% Free",
-    footerCopyright: "All rights reserved",
-    footerDeveloped: "Developed with ❤️ to simplify your document experience"
-  }
-};
+import { translations } from '@/utils/translations';
+import { incrementVisitCount, formatVisitCount } from '@/utils/visitCounter';
 
 export default function Home() {
   const [lang, setLang] = useState('pt');
-  const t = translations[lang];
+  const t = translations[lang].home;
+
+  const [visits, setVisits] = useState(null);
 
   // SEO Dinâmico
   useEffect(() => {
     document.title = lang === 'pt' ? "Ready4Office | Ferramentas PDF Online" : "Ready4Office | Online PDF Tools";
   }, [lang]);
+
+  useEffect(() => {
+    // Contador de visitas local que ignora bots
+    const visitCount = incrementVisitCount();
+    setVisits(visitCount);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f7f5f2] dark:bg-[#121212] font-sans text-gray-800 dark:text-gray-200 transition-colors duration-300 selection:bg-orange-200 dark:selection:bg-orange-900">
@@ -71,12 +29,12 @@ export default function Home() {
       <Navbar lang={lang} setLang={setLang} />
 
       {/* HERO SECTION */}
-      <main className="flex-1 flex flex-col items-center px-8 py-16 max-w-[1200px] mx-auto w-full text-center">
+      <main className="flex-1 flex flex-col items-center px-8 py-16 max-w-[1400px] mx-auto w-full text-center">
         <h1 className="text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight transition-colors">{t.heroTitle}</h1>
         <p className="text-xl text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto transition-colors">{t.heroSub}</p>
 
         {/* GRID DE FERRAMENTAS */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
           
           {/* Card: Editor */}
           <div className="bg-white dark:bg-[#1e1e1e] rounded-3xl p-8 shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col items-center text-center hover:shadow-xl dark:hover:shadow-black/50 transition-all duration-300">
@@ -100,6 +58,34 @@ export default function Home() {
               <Link href="/juntar-pdf" className="w-full py-3 bg-blue-600 text-white font-semibold rounded-2xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100 dark:shadow-none">
                 {t.btnOpen}
               </Link>
+          </div>
+
+          {/* Card: Converter Imagem para PDF */}
+          <div className="bg-white dark:bg-[#1e1e1e] rounded-3xl p-8 shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col items-center text-center hover:shadow-xl dark:hover:shadow-black/50 transition-all duration-300">
+            <div className="w-16 h-16 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-2xl flex items-center justify-center mb-6 transition-colors">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t.toolConvertTitle}</h2>
+            <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm flex-1 leading-relaxed">{t.toolConvertDesc}</p>
+            <Link href="/converter-img-pdf" className="w-full py-3 bg-green-600 text-white font-semibold rounded-2xl hover:bg-green-700 transition-colors shadow-lg shadow-green-100 dark:shadow-none">
+              {t.btnOpen}
+            </Link>
+          </div>
+
+          {/* Card: PDF para Word */}
+          <div className="bg-white dark:bg-[#1e1e1e] rounded-3xl p-8 shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col items-center text-center hover:shadow-xl dark:hover:shadow-black/50 transition-all duration-300">
+            <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-2xl flex items-center justify-center mb-6 transition-colors">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t.toolPdfWordTitle}</h2>
+            <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm flex-1 leading-relaxed">{t.toolPdfWordDesc}</p>
+            <Link href="/converter-pdf-word" className="w-full py-3 bg-purple-600 text-white font-semibold rounded-2xl hover:bg-purple-700 transition-colors shadow-lg shadow-purple-100 dark:shadow-none">
+              {t.btnOpen}
+            </Link>
           </div>
 
           {/* Card: Comprimir */}
@@ -152,6 +138,9 @@ export default function Home() {
           <div className="border-t border-gray-200 dark:border-gray-800 pt-8 text-center text-gray-500 dark:text-gray-600 text-xs">
             <p>&copy; {new Date().getFullYear()} Ready4Office - Global PDF Solutions. {t.footerCopyright}</p>
             <p className="mt-2">{t.footerDeveloped}</p>
+            {visits !== null && (
+              <p className="mt-3 text-[10px] text-gray-400 dark:text-gray-600">{formatVisitCount(visits)} {t.footerVisits}</p>
+            )}
           </div>
         </div>
       </footer>

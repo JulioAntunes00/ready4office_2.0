@@ -2,42 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
-
-// --- DICIONÁRIO DE TRADUÇÃO ---
-const translations = {
-  pt: {
-    title: "Modelos de PDF Prontos para Baixar",
-    subtitle: "Documentos em branco e modelos profissionais para baixar e preencher agora.",
-    downloadBtn: "Baixar PDF",
-    editBtn: "Editar Online",
-    searchPlaceholder: "Procurar modelo...",
-    categories: ["Todos", "Trabalho", "Pessoal", "Contratos"],
-    items: [
-      { id: 1, title: "Recibo de Pagamento", desc: "Modelo simples para comprovação de valores.", cat: "Pessoal" },
-      { id: 2, title: "Declaração de Residência", desc: "Para fins de comprovação de morada.", cat: "Pessoal" },
-      { id: 3, title: "Currículo Moderno", desc: "Design focado na legibilidade e conversão.", cat: "Trabalho" },
-      { id: 4, title: "Contrato de Arrendamento", desc: "Básico para imóveis residenciais.", cat: "Contratos" }
-    ]
-  },
-  en: {
-    title: "Ready-to-use PDF Templates",
-    subtitle: "Blank professional documents for you to download and fill out now.",
-    downloadBtn: "Download PDF",
-    editBtn: "Edit Online",
-    searchPlaceholder: "Search template...",
-    categories: ["All", "Work", "Personal", "Contracts"],
-    items: [
-      { id: 1, title: "Payment Receipt", desc: "Simple model for proof of payment.", cat: "Personal" },
-      { id: 2, title: "Proof of Residence", desc: "Address verification template.", cat: "Personal" },
-      { id: 3, title: "Modern Resume", desc: "Design focused on readability.", cat: "Work" },
-      { id: 4, title: "Rental Agreement", desc: "Basic for residential properties.", cat: "Contracts" }
-    ]
-  }
-};
+import { translations } from '@/utils/translations';
 
 export default function ModelosPage() {
   const [lang, setLang] = useState('pt');
-  const t = translations[lang];
+  const t = translations[lang].modelos;
 
   // SEO Dinâmico
   useEffect(() => {

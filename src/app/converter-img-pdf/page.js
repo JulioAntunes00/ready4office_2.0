@@ -3,9 +3,9 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Navbar from '../../components/Navbar';
 import { translations } from '@/utils/translations';
 
-const autoMerge = async (files, setMergedPdfUrl, setIsProcessing) => {
-  if (files.length < 2) {
-    setMergedPdfUrl(prevUrl => {
+const convertToPdf = async (files, setPdfUrl, setIsProcessing) => {
+  if (files.length === 0) {
+    setPdfUrl(prevUrl => {
       if (prevUrl) URL.revokeObjectURL(prevUrl);
       return null;
     });
@@ -13,38 +13,60 @@ const autoMerge = async (files, setMergedPdfUrl, setIsProcessing) => {
   }
   setIsProcessing(true);
   try {
-    const { PDFDocument } = window.PDFLib;
-    const mergedPdf = await PDFDocument.create();
+    const { PDFDocument, rgb } = window.PDFLib;
+    const pdfDoc = await PDFDocument.create();
 
     for (const file of files) {
       const arrayBuffer = await file.arrayBuffer();
-      const pdf = await PDFDocument.load(arrayBuffer);
-      const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-      copiedPages.forEach((page) => mergedPdf.addPage(page));
+      let image;
+      if (file.type === 'image/jpeg') {
+        image = await pdfDoc.embedJpg(arrayBuffer);
+      } else {
+        image = await pdfDoc.embedPng(arrayBuffer);
+      }
+      const page = pdfDoc.addPage([595.28, 841.89]); // A4 size
+      const imageAspectRatio = image.width / image.height;
+      const pageAspectRatio = page.getWidth() / page.getHeight();
+      let newWidth, newHeight;
+
+      if (imageAspectRatio > pageAspectRatio) {
+        newWidth = page.getWidth();
+        newHeight = newWidth / imageAspectRatio;
+      } else {
+        newHeight = page.getHeight();
+        newWidth = newHeight * imageAspectRatio;
+      }
+
+      page.drawImage(image, {
+        x: (page.getWidth() - newWidth) / 2,
+        y: (page.getHeight() - newHeight) / 2,
+        width: newWidth,
+        height: newHeight,
+      });
     }
 
-    const pdfBytes = await mergedPdf.save();
+    const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
 
-    setMergedPdfUrl(prevUrl => {
+    setPdfUrl(prevUrl => {
       if (prevUrl) URL.revokeObjectURL(prevUrl);
       return url;
     });
   } catch (error) {
-    console.error("Erro ao juntar:", error);
+    console.error("Erro ao converter para PDF:", error);
   } finally {
     setIsProcessing(false);
   }
 };
 
-export default function JuntarPdfPage() {
+export default function ConverterImgPdfPage() {
   const [lang, setLang] = useState('pt');
-  const t = translations[lang].juntar;
+  const t = translations[lang].converter;
 
   const [files, setFiles] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [mergedPdfUrl, setMergedPdfUrl] = useState(null);
+  const [pdfUrl, setPdfUrl] = useState(null);
   
   const [draggedItemIndex, setDraggedItemIndex] = useState(null);
   const [dragOverItemIndex, setDragOverItemIndex] = useState(null);
@@ -52,7 +74,6 @@ export default function JuntarPdfPage() {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    // Sugestão: Instale via npm (npm install pdf-lib) para remover este bloco
     const loadScript = (src) => new Promise(resolve => {
       if (document.querySelector(`script[src="${src}"]`)) return resolve();
       const s = document.createElement('script');
@@ -64,22 +85,20 @@ export default function JuntarPdfPage() {
   useEffect(() => {
     let timer;
     if (window.PDFLib) {
-      autoMerge(files, setMergedPdfUrl, setIsProcessing);
+      convertToPdf(files, setPdfUrl, setIsProcessing);
     } else {
-      timer = setTimeout(() => autoMerge(files, setMergedPdfUrl, setIsProcessing), 1000);
+      timer = setTimeout(() => convertToPdf(files, setPdfUrl, setIsProcessing), 1000);
     }
 
     return () => {
       if (timer) clearTimeout(timer);
-      // Nota: A revogação da URL agora é tratada dentro do autoMerge e no unmount se necessário
     };
   }, [files]);
 
   const handleFileSelect = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    if (files.length + selectedFiles.length > 10) { alert(t.limitMsg); return; }
-    const pdfFiles = selectedFiles.filter(file => file.type === 'application/pdf');
-    setFiles(prev => [...prev, ...pdfFiles]);
+    const imageFiles = selectedFiles.filter(file => file.type.startsWith('image/'));
+    setFiles(prev => [...prev, ...imageFiles]);
   };
 
   const removeFile = (index) => setFiles(prev => prev.filter((_, i) => i !== index));
@@ -109,7 +128,7 @@ export default function JuntarPdfPage() {
             <div onClick={() => fileInputRef.current.click()} className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-6 text-center mb-4 cursor-pointer hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition">
               <svg className="mx-auto h-8 w-8 text-gray-400 dark:text-gray-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
               <p className="text-sm text-gray-500 dark:text-gray-400">{t.addBtn}</p>
-              <input type="file" ref={fileInputRef} onChange={handleFileSelect} className="hidden" accept="application/pdf" multiple />
+              <input type="file" ref={fileInputRef} onChange={handleFileSelect} className="hidden" accept="image/*" multiple />
             </div>
             {isProcessing && (
               <div className="w-full py-3 text-blue-600 dark:text-blue-400 font-semibold rounded-xl bg-blue-50 dark:bg-blue-900/30 flex justify-center items-center gap-2">
@@ -121,7 +140,7 @@ export default function JuntarPdfPage() {
         </aside>
 
         <section className="flex-1 bg-white dark:bg-[#1e1e1e] rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 p-6 flex flex-col min-h-[600px] transition-colors">
-          {files.length >= 2 ? (
+          {files.length > 0 ? (
             <div className="flex gap-6 h-full min-h-[600px]">
               <div className="w-1/3 flex flex-col border-r border-gray-200 dark:border-gray-700 pr-6">
                 <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t.orderTitle}</h2>
@@ -151,14 +170,14 @@ export default function JuntarPdfPage() {
               <div className="w-2/3 flex flex-col h-[600px]">
                  <div className="flex justify-between items-center w-full mb-4">
                    <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t.previewTitle}</h2>
-                   {mergedPdfUrl && (
-                     <a href={mergedPdfUrl} download="arquivos_mesclados.pdf" className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium flex gap-2 items-center text-sm shadow-sm">
+                   {pdfUrl && (
+                     <a href={pdfUrl} download="convertido.pdf" className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium flex gap-2 items-center text-sm shadow-sm">
                        {t.downloadBtn}
                      </a>
                    )}
                  </div>
-                 {mergedPdfUrl ? (
-                   <iframe src={mergedPdfUrl} className="w-full flex-1 rounded-xl border border-gray-300 dark:border-gray-700"></iframe>
+                 {pdfUrl ? (
+                   <iframe src={pdfUrl} className="w-full flex-1 rounded-xl border border-gray-300 dark:border-gray-700"></iframe>
                  ) : (
                    <div className="w-full flex-1 rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#1a1a1a] flex items-center justify-center text-gray-400 dark:text-gray-600">...</div>
                  )}
@@ -167,7 +186,7 @@ export default function JuntarPdfPage() {
           ) : (
             <div className="flex flex-col items-center justify-center h-full">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t.emptyTitle}</h2>
-              <p className="text-gray-400 dark:text-gray-500">{files.length === 1 ? t.oneFileMsg : t.noFilesMsg}</p>
+              <p className="text-gray-400 dark:text-gray-500">{t.noFilesMsg}</p>
             </div>
           )}
         </section>
