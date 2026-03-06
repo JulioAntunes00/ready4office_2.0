@@ -1,48 +1,41 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
+import { translations } from '@/utils/translations';
 
 // =========================================================================
 // COMPONENTE NAVBAR (Embutido aqui apenas para o Canvas funcionar na prévia. 
 // No seu VS Code, mantenha a importação do arquivo separado!)
 // =========================================================================
-const navTranslations = {
-  pt: { navHome: "Início", navTools: "Ferramentas", navTemplates: "Modelos PDF" },
-  en: { navHome: "Home", navTools: "Tools", navTemplates: "PDF Templates" }
-};
-
 const Navbar = ({ lang, setLang }) => {
-  const tNav = navTranslations[lang] || navTranslations.pt;
-  const [isDark, setIsDark] = useState(false);
+  const tNav = translations[lang].navbar;
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+    return false;
+  });
 
   useEffect(() => {
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      setIsDark(true);
+    if (isDark) {
       document.documentElement.classList.add('dark');
     } else {
-      setIsDark(false);
       document.documentElement.classList.remove('dark');
     }
-  }, []);
+  }, [isDark]);
 
   const setTheme = (mode) => {
-    if (mode === 'dark') {
-      document.documentElement.classList.add('dark');
-      localStorage.theme = 'dark';
-      setIsDark(true);
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.theme = 'light';
-      setIsDark(false);
-    }
+    localStorage.theme = mode;
+    setIsDark(mode === 'dark');
   };
-
+  
   return (
     <nav className="bg-[#f7f5f2] dark:bg-[#121212] border-b border-gray-200 dark:border-gray-800 px-8 py-4 flex justify-between items-center transition-colors duration-300">
-      <a href="/" className="text-2xl font-bold text-black dark:text-white tracking-tight">Ready4office</a>
+      <Link href="/" className="text-2xl font-bold text-black dark:text-white tracking-tight">Ready4office</Link>
       <div className="flex space-x-2">
-        <a href="/" className="px-4 py-2 rounded-full bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition text-orange-600 dark:text-orange-400">{tNav.navHome}</a>
-        <a href="/" className="px-4 py-2 rounded-full bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition">{tNav.navTools}</a>
-        <a href="/modelos" className="px-4 py-2 rounded-full bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition text-green-600 dark:text-green-400">{tNav.navTemplates}</a>
+        <Link href="/" className="px-4 py-2 rounded-full bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition text-orange-600 dark:text-orange-400">{tNav.navHome}</Link>
+        <Link href="/" className="px-4 py-2 rounded-full bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition">{tNav.navTools}</Link>
+        <Link href="/modelos" className="px-4 py-2 rounded-full bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition text-green-600 dark:text-green-400">{tNav.navTemplates}</Link>
       </div>
       
       <div className="flex items-center gap-4">
@@ -78,24 +71,11 @@ const COLORS = [
   { hex: '#F97316', rgb: [0.97, 0.45, 0.08] }
 ];
 
-const translations = {
-  pt: {
-    fileLabel: "Arquivo", uploadBtn: "Clique para selecionar um PDF", loadedMsg: "Documento carregado!",
-    downloadBtn: "Baixar PDF Editado", processingMsg: "A Gerar...", toolsLabel: "Ferramentas",
-    colorLabel: "Cor do Texto", clearBtn: "Limpar Anotações", emptyMsg: "Nenhum documento carregado. Use o menu lateral para selecionar um PDF."
-  },
-  en: {
-    fileLabel: "File", uploadBtn: "Click to select a PDF", loadedMsg: "Document loaded!",
-    downloadBtn: "Download Edited PDF", processingMsg: "Generating...", toolsLabel: "Tools",
-    colorLabel: "Text Color", clearBtn: "Clear Annotations", emptyMsg: "No document loaded. Use the sidebar to select a PDF."
-  }
-};
-
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
 export default function EditorPdfPage() {
   const [lang, setLang] = useState('pt');
-  const t = translations[lang];
+  const t = translations[lang].editor;
 
   const [pdfLoaded, setPdfLoaded] = useState(false);
   const [originalPdfBytes, setOriginalPdfBytes] = useState(null);

@@ -1,37 +1,28 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-
-const navTranslations = {
-  pt: { navHome: "Início", navTools: "Ferramentas", navTemplates: "Modelos PDF" },
-  en: { navHome: "Home", navTools: "Tools", navTemplates: "PDF Templates" }
-};
+import { translations } from '@/utils/translations';
 
 const Navbar = ({ lang, setLang }) => {
-  const tNav = navTranslations[lang] || navTranslations.pt;
-  const [isDark, setIsDark] = useState(false);
+  const tNav = translations[lang].navbar;
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+    return false;
+  });
 
-  // Lógica do Dark Mode centralizada aqui
   useEffect(() => {
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      setIsDark(true);
+    if (isDark) {
       document.documentElement.classList.add('dark');
     } else {
-      setIsDark(false);
       document.documentElement.classList.remove('dark');
     }
-  }, []);
+  }, [isDark]);
 
   const setTheme = (mode) => {
-    if (mode === 'dark') {
-      document.documentElement.classList.add('dark');
-      localStorage.theme = 'dark';
-      setIsDark(true);
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.theme = 'light';
-      setIsDark(false);
-    }
+    localStorage.theme = mode;
+    setIsDark(mode === 'dark');
   };
 
   return (

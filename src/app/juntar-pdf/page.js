@@ -1,25 +1,11 @@
 "use client";
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Navbar from '../../components/Navbar';
-
-const translations = {
-  pt: {
-    sidebarTitle: "Arquivos", addBtn: "Adicionar PDFs", limitMsg: "Limite: Máximo de 10 arquivos.", processingMsg: "Mesclando...",
-    orderTitle: "Ordem dos Arquivos", orderDesc: "Arraste os itens para organizar a ordem final das páginas.",
-    previewTitle: "Prévia Final", downloadBtn: "Baixar PDF", emptyTitle: "Aguardando Arquivos",
-    oneFileMsg: "Você selecionou 1 arquivo. Selecione mais para poder juntar.", noFilesMsg: "Nenhum arquivo selecionado. Use o painel lateral."
-  },
-  en: {
-    sidebarTitle: "Files", addBtn: "Add PDFs", limitMsg: "Limit: Max 10 files.", processingMsg: "Merging...",
-    orderTitle: "File Order", orderDesc: "Drag items to organize the final page order.",
-    previewTitle: "Final Preview", downloadBtn: "Download PDF", emptyTitle: "Waiting for Files",
-    oneFileMsg: "You selected 1 file. Select more to merge.", noFilesMsg: "No files selected. Use the sidebar."
-  }
-};
+import { translations } from '@/utils/translations';
 
 export default function JuntarPdfPage() {
   const [lang, setLang] = useState('pt');
-  const t = translations[lang];
+  const t = translations[lang].juntar;
 
   const [files, setFiles] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -31,6 +17,7 @@ export default function JuntarPdfPage() {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
+    // Sugestão: Instale via npm (npm install pdf-lib) para remover este bloco
     const loadScript = (src) => new Promise(resolve => {
       if (document.querySelector(`script[src="${src}"]`)) return resolve();
       const s = document.createElement('script');
@@ -39,50 +26,63 @@ export default function JuntarPdfPage() {
     loadScript('https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js');
   }, []);
 
+  const autoMerge = useCallback(async () => {
+    if (files.length < 2) {
+      setMergedPdfUrl(prevUrl => {
+        if (prevUrl) URL.revokeObjectURL(prevUrl);
+        return null;
+      });
+      return;
+    }
+    setIsProcessing(true);
+    try {
+      const { PDFDocument } = window.PDFLib;
+      const mergedPdf = await PDFDocument.create();
+
+      for (const file of files) {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await PDFDocument.load(arrayBuffer);
+        const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+        copiedPages.forEach((page) => mergedPdf.addPage(page));
+      }
+
+      const pdfBytes = await mergedPdf.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+
+      setMergedPdfUrl(prevUrl => {
+        if (prevUrl) URL.revokeObjectURL(prevUrl);
+        return url;
+      });
+    } catch (error) {
+      console.error("Erro ao juntar:", error);
+    } finally {
+      setIsProcessing(false);
+    }
+  }, [files]);
+
   useEffect(() => {
-    const autoMerge = async () => {
-      if (files.length < 2) {
-        setMergedPdfUrl(null);
-        return;
-      }
-      setIsProcessing(true);
-      try {
-        const { PDFDocument } = window.PDFLib;
-        const mergedPdf = await PDFDocument.create();
-
-        for (const file of files) {
-          const arrayBuffer = await file.arrayBuffer();
-          const pdf = await PDFDocument.load(arrayBuffer);
-          const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-          copiedPages.forEach((page) => mergedPdf.addPage(page));
-        }
-
-        const pdfBytes = await mergedPdf.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        setMergedPdfUrl(url);
-      } catch (error) {
-        console.error("Erro ao juntar:", error);
-      } finally {
-        setIsProcessing(false);
-      }
-    };
-
+    let timer;
     if (window.PDFLib) {
       autoMerge();
     } else {
-      setTimeout(autoMerge, 1000);
+      timer = setTimeout(autoMerge, 1000);
     }
-  }, [files]); 
+
+    return () => {
+      if (timer) clearTimeout(timer);
+      // Nota: A revogação da URL agora é tratada dentro do autoMerge e no unmount se necessário
+    };
+  }, [files, autoMerge]);
 
   const handleFileSelect = (e) => {
     const selectedFiles = Array.from(e.target.files);
     if (files.length + selectedFiles.length > 10) { alert(t.limitMsg); return; }
-    const pdfFiles = selectedFiles.filter(f => f.type === 'application/pdf');
-    setFiles([...files, ...pdfFiles]);
+    const pdfFiles = selectedFiles.filter(file => file.type === 'application/pdf');
+    setFiles(prev => [...prev, ...pdfFiles]);
   };
 
-  const removeFile = (index) => setFiles(files.filter((_, i) => i !== index));
+  const removeFile = (index) => setFiles(prev => prev.filter((_, i) => i !== index));
 
   const onDragStart = (e, index) => { setDraggedItemIndex(index); setTimeout(() => { e.target.style.opacity = '0.5'; }, 0); };
   const onDragEnter = (e, index) => { e.preventDefault(); setDragOverItemIndex(index); };

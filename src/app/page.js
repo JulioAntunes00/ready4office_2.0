@@ -2,62 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
-
-// --- DICIONÁRIO DE TRADUÇÃO ---
-const translations = {
-  pt: {
-    heroTitle: "Editor de PDF e Ferramentas Online Grátis",
-    heroSub: "Edite, junte e assine documentos PDF direto no seu navegador. Rápido, seguro e sem precisar instalar programas.",
-    btnOpen: "Abrir Ferramenta",
-    btnSoon: "Em breve",
-    toolEditorTitle: "Editor de PDF",
-    toolEditorDesc: "Adicione textos, preencha formulários e assine declarações online com segurança.",
-    toolMergeTitle: "Juntar PDFs",
-    toolMergeDesc: "Mesclar PDF online. Una vários documentos num único arquivo rapidamente e organize a ordem.",
-    toolCompressTitle: "Comprimir PDF",
-    toolCompressDesc: "Em breve. Reduza o peso dos seus arquivos mantendo a máxima qualidade original.",
-    footerAboutTitle: "Sobre Ready4Office",
-    footerAboutDesc: "Plataforma online gratuita para editar, mesclar e assinar documentos PDF diretamente no seu navegador, sem necessidade de instalação.",
-    footerLinksTitle: "Links Rápidos",
-    footerLink1: "Editor PDF",
-    footerLink2: "Juntar PDFs",
-    footerLink3: "Modelos",
-    footerInfoTitle: "Informações",
-    footerInfo1: "Email: info@ready4office.com",
-    footerInfo2: "Seus dados são privados",
-    footerInfo3: "100% Gratuito",
-    footerCopyright: "Todos os direitos reservados",
-    footerDeveloped: "Desenvolvido com ❤️ para simplificar sua experiência com documentos"
-  },
-  en: {
-    heroTitle: "Free Online PDF Editor & Tools",
-    heroSub: "Edit, merge, and sign PDF documents directly in your browser. Fast, secure, and no installation required.",
-    btnOpen: "Open Tool",
-    btnSoon: "Coming soon",
-    toolEditorTitle: "PDF Editor",
-    toolEditorDesc: "Add text, fill out forms, and sign documents online easily and securely.",
-    toolMergeTitle: "Merge PDFs",
-    toolMergeDesc: "Combine multiple PDF documents into a single file and organize the page order.",
-    toolCompressTitle: "Compress PDF",
-    toolCompressDesc: "Coming soon. Reduce your file sizes while maintaining maximum original quality.",
-    footerAboutTitle: "About Ready4Office",
-    footerAboutDesc: "Free online platform to edit, merge and sign PDF documents directly in your browser, with no installation needed.",
-    footerLinksTitle: "Quick Links",
-    footerLink1: "PDF Editor",
-    footerLink2: "Merge PDFs",
-    footerLink3: "Models",
-    footerInfoTitle: "Information",
-    footerInfo1: "Email: info@ready4office.com",
-    footerInfo2: "Your data is private",
-    footerInfo3: "100% Free",
-    footerCopyright: "All rights reserved",
-    footerDeveloped: "Developed with ❤️ to simplify your document experience"
-  }
-};
+import { translations } from '@/utils/translations';
 
 export default function Home() {
   const [lang, setLang] = useState('pt');
-  const t = translations[lang];
+  const t = translations[lang].home;
 
   // SEO Dinâmico
   useEffect(() => {
