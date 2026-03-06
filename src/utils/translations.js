@@ -14,6 +14,8 @@ export const translations = {
       toolEditorDesc: "Adicione textos, preencha formulários e assine declarações online com segurança.",
       toolMergeTitle: "Juntar PDFs",
       toolMergeDesc: "Mesclar PDF online. Una vários documentos num único arquivo rapidamente e organize a ordem.",
+      toolConvertTitle: "Converter Imagem em PDF",
+      toolConvertDesc: "Transforme imagens JPG, PNG e outras em documentos PDF de forma rápida e fácil.",
       toolCompressTitle: "Comprimir PDF",
       toolCompressDesc: "Em breve. Reduza o peso dos seus arquivos mantendo a máxima qualidade original.",
       footerAboutTitle: "Sobre Ready4Office",
@@ -66,6 +68,17 @@ export const translations = {
       colorLabel: "Cor do Texto",
       clearBtn: "Limpar Anotações",
       emptyMsg: "Nenhum documento carregado. Use o menu lateral para selecionar um PDF."
+    },
+    converter: {
+      sidebarTitle: "Imagens",
+      addBtn: "Adicionar Imagens",
+      processingMsg: "Convertendo...",
+      orderTitle: "Ordem das Imagens",
+      orderDesc: "Arraste as imagens para organizar a ordem final.",
+      previewTitle: "Prévia do PDF",
+      downloadBtn: "Baixar PDF",
+      emptyTitle: "Aguardando Imagens",
+      noFilesMsg: "Nenhuma imagem selecionada. Use o painel lateral."
     }
   },
   en: {
@@ -83,6 +96,8 @@ export const translations = {
       toolEditorDesc: "Add text, fill out forms, and sign documents online easily and securely.",
       toolMergeTitle: "Merge PDFs",
       toolMergeDesc: "Combine multiple PDF documents into a single file and organize the page order.",
+      toolConvertTitle: "Convert Image to PDF",
+      toolConvertDesc: "Transform JPG, PNG, and other images into PDF documents quickly and easily.",
       toolCompressTitle: "Compress PDF",
       toolCompressDesc: "Coming soon. Reduce your file sizes while maintaining maximum original quality.",
       footerAboutTitle: "About Ready4Office",
@@ -135,6 +150,17 @@ export const translations = {
       colorLabel: "Text Color",
       clearBtn: "Clear Annotations",
       emptyMsg: "No document loaded. Use the sidebar to select a PDF."
+    },
+    converter: {
+      sidebarTitle: "Images",
+      addBtn: "Add Images",
+      processingMsg: "Converting...",
+      orderTitle: "Image Order",
+      orderDesc: "Drag images to organize the final order.",
+      previewTitle: "PDF Preview",
+      downloadBtn: "Download PDF",
+      emptyTitle: "Waiting for Images",
+      noFilesMsg: "No images selected. Use the sidebar."
     }
   }
 };

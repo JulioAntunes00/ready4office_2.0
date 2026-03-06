@@ -20,12 +20,12 @@ export default function Home() {
       <Navbar lang={lang} setLang={setLang} />
 
       {/* HERO SECTION */}
-      <main className="flex-1 flex flex-col items-center px-8 py-16 max-w-[1200px] mx-auto w-full text-center">
+      <main className="flex-1 flex flex-col items-center px-8 py-16 max-w-[1400px] mx-auto w-full text-center">
         <h1 className="text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight transition-colors">{t.heroTitle}</h1>
         <p className="text-xl text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto transition-colors">{t.heroSub}</p>
 
         {/* GRID DE FERRAMENTAS */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
           
           {/* Card: Editor */}
           <div className="bg-white dark:bg-[#1e1e1e] rounded-3xl p-8 shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col items-center text-center hover:shadow-xl dark:hover:shadow-black/50 transition-all duration-300">
@@ -49,6 +49,20 @@ export default function Home() {
               <Link href="/juntar-pdf" className="w-full py-3 bg-blue-600 text-white font-semibold rounded-2xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100 dark:shadow-none">
                 {t.btnOpen}
               </Link>
+          </div>
+
+          {/* Card: Converter Imagem para PDF */}
+          <div className="bg-white dark:bg-[#1e1e1e] rounded-3xl p-8 shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col items-center text-center hover:shadow-xl dark:hover:shadow-black/50 transition-all duration-300">
+            <div className="w-16 h-16 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-2xl flex items-center justify-center mb-6 transition-colors">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t.toolConvertTitle}</h2>
+            <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm flex-1 leading-relaxed">{t.toolConvertDesc}</p>
+            <Link href="/converter-img-pdf" className="w-full py-3 bg-green-600 text-white font-semibold rounded-2xl hover:bg-green-700 transition-colors shadow-lg shadow-green-100 dark:shadow-none">
+              {t.btnOpen}
+            </Link>
           </div>
 
           {/* Card: Comprimir */}
