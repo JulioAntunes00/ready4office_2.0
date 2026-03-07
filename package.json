@@ -10,8 +10,10 @@
     "export": "next build && next export"
   },
   "dependencies": {
+    "jspdf": "^4.2.0",
     "next": "16.1.6",
     "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.5.207",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },

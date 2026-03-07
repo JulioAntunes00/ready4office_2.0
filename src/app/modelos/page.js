@@ -64,12 +64,24 @@ export default function ModelosPage() {
                         
                         <div className="flex gap-2">
                             <button 
-                                onClick={() => window.location.href = '/recibo'}
-                                className="flex-1 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg text-sm font-semibold hover:bg-black dark:hover:bg-gray-600 transition-colors"
+                                onClick={() => window.location.href = item.editLink || '#'}
+                                disabled={!item.editLink}
+                                className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                                    item.editLink 
+                                        ? 'bg-gray-800 dark:bg-gray-700 text-white hover:bg-black dark:hover:bg-gray-600' 
+                                        : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                                }`}
                             >
                                 {t.downloadBtn}
                             </button>
-                            <Link href="/recibo" className="flex-1 py-2 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-center block">
+                            <Link 
+                                href={item.editLink || '#'} 
+                                className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-colors text-center block ${
+                                    item.editLink 
+                                        ? 'border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800' 
+                                        : 'border border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                                }`}
+                            >
                                 {t.editBtn}
                             </Link>
                         </div>

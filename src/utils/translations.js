@@ -135,6 +135,26 @@ export const translations = {
       receiverSignature: "Assinatura do Recebedor",
       downloadBtn: "Baixar PDF",
       printBtn: "Imprimir"
+    },
+    assinatura: {
+      title: "Assinatura Digital de PDF",
+      subtitle: "Assine seus documentos PDF online com carimbo de data e hora",
+      uploadTitle: "Upload do Documento",
+      uploadInstructions: "Arraste um arquivo PDF aqui ou clique para selecionar",
+      selectFile: "Selecionar Arquivo",
+      fileSelected: "Arquivo selecionado",
+      changeFile: "Alterar Arquivo",
+      locationInfo: "Informações de Localização",
+      locationDetected: "Localização detectada",
+      dateTime: "Data e hora",
+      changeLocation: "Alterar localização",
+      signatureTitle: "Assinatura Digital",
+      clearSignature: "Limpar Assinatura",
+      color: "Cor",
+      size: "Espessura",
+      previewTitle: "Preview do Documento",
+      downloadSigned: "Baixar PDF Assinado",
+      downloadAlert: "Funcionalidade de download será implementada com biblioteca PDF"
     }
   },
   en: {
