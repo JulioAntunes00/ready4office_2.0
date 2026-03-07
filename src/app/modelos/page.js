@@ -63,10 +63,13 @@ export default function ModelosPage() {
                         <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{item.desc}</p>
                         
                         <div className="flex gap-2">
-                            <button className="flex-1 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg text-sm font-semibold hover:bg-black dark:hover:bg-gray-600 transition-colors">
+                            <button 
+                                onClick={() => window.location.href = '/recibo'}
+                                className="flex-1 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg text-sm font-semibold hover:bg-black dark:hover:bg-gray-600 transition-colors"
+                            >
                                 {t.downloadBtn}
                             </button>
-                            <Link href="/editor" className="flex-1 py-2 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-center block">
+                            <Link href="/recibo" className="flex-1 py-2 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-center block">
                                 {t.editBtn}
                             </Link>
                         </div>
