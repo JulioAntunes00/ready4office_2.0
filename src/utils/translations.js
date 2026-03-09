@@ -2,7 +2,7 @@ export const translations = {
   pt: {
     navbar: {
       navHome: "Início",
-      navTools: "Ferramentas",
+      navTools: "Modelos Online",
       navTemplates: "Modelos PDF"
     },
     home: {
@@ -159,8 +159,8 @@ export const translations = {
   },
   en: {
     navbar: {
-      navHome: "Home",
-      navTools: "Tools",
+      navHome: "Tools",
+      navTools: "Online Templates",
       navTemplates: "PDF Templates"
     },
     home: {

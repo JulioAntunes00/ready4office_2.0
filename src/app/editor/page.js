@@ -54,9 +54,9 @@ const Navbar = ({ lang, setLang }) => {
         <Link href="/" className="text-2xl font-bold text-black dark:text-white tracking-tight">Ready4office</Link>
         <div className="flex space-x-2">
           <Link href="/" className="px-4 py-2 rounded-full bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition text-orange-600 dark:text-orange-400">{tNav.navHome}</Link>
-          <Link href="/" className="px-4 py-2 rounded-full bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition">{tNav.navTools}</Link>
-          <Link href="/modelos" className="px-4 py-2 rounded-full bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition text-green-600 dark:text-green-400">{tNav.navTemplates}</Link>
+          <Link href="/modelos" className="px-4 py-2 rounded-full bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition">{tNav.navTools}</Link>
         </div>
+
         <div className="flex items-center gap-4">
           {commonToggles}
         </div>
@@ -71,8 +71,7 @@ const Navbar = ({ lang, setLang }) => {
         </div>
         <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
           <Link href="/" className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1e1e1e] px-3 py-2 text-center text-orange-600 dark:text-orange-400">{tNav.navHome}</Link>
-          <Link href="/" className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1e1e1e] px-3 py-2 text-center">{tNav.navTools}</Link>
-          <Link href="/modelos" className="col-span-2 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1e1e1e] px-3 py-2 text-center text-green-600 dark:text-green-400">{tNav.navTemplates}</Link>
+          <Link href="/modelos" className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1e1e1e] px-3 py-2 text-center">{tNav.navTools}</Link>
         </div>
       </nav>
     </>
@@ -291,6 +290,10 @@ export default function EditorPdfPage() {
       y: clientY - rect.top
     });
     setDraggingId(id);
+
+    if (textElement.setPointerCapture && event.pointerId !== undefined) {
+      textElement.setPointerCapture(event.pointerId);
+    }
   };
   const onDrag = (event) => {
     if (!draggingId || currentTool !== 'select') return;
@@ -420,39 +423,43 @@ export default function EditorPdfPage() {
               onPointerMove={onDrag} 
               onPointerUp={handlePointerUp} 
               onPointerLeave={handlePointerUp}
-              className={`absolute top-0 left-0 w-full h-full overflow-hidden ${currentTool === 'select' ? 'touch-none' : 'touch-pan-y'}`}
+              className={`absolute top-0 left-0 w-full h-full overflow-hidden ${draggingId ? 'touch-none' : 'touch-pan-y'}`}
             >
-              {texts.map(item => (
-                <div
-                  key={item.id}
-                  data-text-id={item.id}
-                  onPointerDown={(e) => startDrag(e, item.id)}
-                  contentEditable
-                  suppressContentEditableWarning
-                  onInput={(e) => {
-                    const content = e.target.textContent || e.target.innerText || '';
-                    updateTextContent(item.id, content);
-                  }}
-                  onFocus={() => setIsEditing(item.id)}
-                  onBlur={(e) => {
-                    setIsEditing(null);
-                    const content = e.target.textContent || e.target.innerText || '';
-                    updateTextContent(item.id, content);
-                  }}
-                  className={`absolute min-w-[50px] min-h-[24px] px-1 outline-none font-sans text-[14px] md:text-[16px] leading-[1.2] whitespace-nowrap 
-                    ${currentTool === 'select' ? 'cursor-move hover:border-gray-300 border border-dashed border-transparent' : 'cursor-text'}
-                    focus:border-orange-500 focus:bg-white focus:bg-opacity-90 dark:focus:bg-black dark:focus:bg-opacity-90 border border-dashed border-transparent`}
-                  style={{ 
-                    left: item.x, 
-                    top: item.y, 
-                    color: item.colorHex, 
-                    userSelect: draggingId ? 'none' : 'auto',
-                    touchAction: draggingId ? 'none' : 'auto'
-                  }}
-                >
-                  {item.text || (document.activeElement?.parentNode === textLayerRef.current ? '' : '...')}
-                </div>
-              ))}
+              {texts.map(item => {
+                const isItemEditing = isEditing === item.id;
+                return (
+                  <div
+                    key={item.id}
+                    data-text-id={item.id}
+                    onPointerDown={(e) => startDrag(e, item.id)}
+                    contentEditable
+                    suppressContentEditableWarning
+                    onInput={(e) => {
+                      const content = e.target.textContent || e.target.innerText || '';
+                      updateTextContent(item.id, content);
+                    }}
+                    onFocus={() => setIsEditing(item.id)}
+                    onBlur={(e) => {
+                      setIsEditing(null);
+                      const content = e.target.textContent || e.target.innerText || '';
+                      updateTextContent(item.id, content);
+                    }}
+                    className={`absolute min-w-[60px] min-h-[28px] px-2 py-1 rounded-md outline-none font-sans text-[14px] md:text-[16px] leading-[1.2] whitespace-nowrap transition-colors duration-150
+                      ${currentTool === 'select' ? 'cursor-move hover:border-gray-300 border border-dashed border-transparent' : 'cursor-text'}
+                      ${isItemEditing ? 'bg-white/95 dark:bg-black/80 backdrop-blur-sm ring-2 ring-orange-200/60 dark:ring-orange-500/40 shadow-sm' : 'bg-transparent'}
+                      focus:border-orange-500 border border-dashed border-transparent`}
+                    style={{ 
+                      left: item.x, 
+                      top: item.y, 
+                      color: item.colorHex,
+                      userSelect: draggingId ? 'none' : 'auto',
+                      touchAction: draggingId ? 'none' : 'auto'
+                    }}
+                  >
+                    {item.text || (document.activeElement?.parentNode === textLayerRef.current ? '' : '...')}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -470,10 +477,18 @@ export default function EditorPdfPage() {
           </div>
           <div className="flex gap-3 mb-4 justify-center">
             {COLORS.map((c, i) => (
-              <button key={i} onClick={() => { setActiveColor(c); setShowBottomSheet(false); }} className={`w-10 h-10 rounded-full ring-2 ring-offset-2 dark:ring-offset-[#1e1e1e] transition ${activeColor.hex === c.hex ? 'ring-gray-400' : 'ring-transparent hover:ring-gray-300'}`} style={{ backgroundColor: c.hex }} />
+              <button
+                key={i}
+                onClick={() => { setActiveColor(c); setShowBottomSheet(false); }}
+                className={`w-10 h-10 rounded-full ring-2 ring-offset-2 dark:ring-offset-[#1e1e1e] transition ${activeColor.hex === c.hex ? 'ring-gray-400' : 'ring-transparent hover:ring-gray-300'}`}
+                style={{ backgroundColor: c.hex }}
+              />
             ))}
           </div>
-          <button onClick={() => { setTexts([]); setShowBottomSheet(false); }} className="w-full py-3 border border-red-200 dark:border-red-900/50 text-red-500 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition flex justify-center items-center gap-2">
+          <button
+            onClick={() => { setTexts([]); setShowBottomSheet(false); }}
+            className="w-full py-3 border border-red-200 dark:border-red-900/50 text-red-500 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition flex justify-center items-center gap-2"
+          >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
             {t.clearBtn}
           </button>
